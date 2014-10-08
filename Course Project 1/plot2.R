@@ -1,14 +1,7 @@
-## Read the file into memory
-el <- read.csv("household_power_consumption.txt", sep=";", header=TRUE)
+## This file performs all the loading, which is the same for all the plot scripts
+source("common_init.R")
 
-## Subsetting the data
-el$ParsedDate <- as.Date(el$Date,"%d/%m/%Y")
-elParsed <- subset(el, el$ParsedDate == as.Date("2007-02-01") | el$ParsedDate == as.Date("2007-02-02"))
-elParsed$ParsedDateTime <- as.POSIXct(paste(elParsed$ParsedDate, elParsed$Time), format="%Y-%m-%d %H:%M:%S")
-
-as.numeric.factor <- function(x) {as.numeric(levels(x))[x]}
-elParsed$Global_active_power_num <- as.numeric.factor(elParsed$Global_active_power)
-
+## Output the image
 plot(
   elParsed$ParsedDateTime,
   elParsed$Global_active_power_num,
@@ -18,9 +11,10 @@ plot(
   col = "black"
 )
 
-## Default size of the png is 480 x 480 pixels
-## The image may be visible when opening in a browser, having 
-## a "blocky" background, which is actually transparent.
+## Notes:
+## 1. The image may be visible when opening in a browser, having
+##    a "blocky" background, which is actually transparent.
+## 2. Default size of the png is 480 x 480 pixels
 dev.copy(png, "plot2.png")
 
 ## Don't forget to shut down the device

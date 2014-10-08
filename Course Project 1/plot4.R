@@ -6,9 +6,32 @@ source("common_init.R")
 ##    a "blocky" background, which is actually transparent.
 ## 2. It seems that the legend in one of the images does not come out well with
 ##    dev.copy. Therefore I am outputting the image to png directly.
-png("plot3.png", width=480, height=480, units="px")
+png("plot4.png", width=480, height=480, units="px")
 
-## Output the image
+# Set up 2x2 matrix for plotting
+par(mfrow = c(2,2))
+
+# Top left - same as plot2.
+plot(
+  elParsed$ParsedDateTime,
+  elParsed$Global_active_power_num,
+  ylab = "Global Active Power (kilowatts)", 
+  xlab = "", 
+  type = "l",
+  col = "black"
+)
+
+# Top right
+plot(
+  elParsed$ParsedDateTime,
+  elParsed$Voltage_num,
+  ylab = "Voltage", 
+  xlab = "datetime", 
+  type = "l",
+  col = "black"
+)
+
+# Bottom left - same as plot3.
 plot(
   elParsed$ParsedDateTime,
   elParsed$Sub_metering_1_num,
@@ -34,9 +57,20 @@ lines(
 
 ## Add the legend to the image
 legend("topright", 
-  lwd=c(2.5,2.5,2.5),
-  col = c("black", "red", "blue"), 
-  legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3")
+       lwd=c(2.5,2.5,2.5),
+       col = c("black", "red", "blue"), 
+       legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),
+       bty = "n"
+)
+
+# Bottom right
+plot(
+  elParsed$ParsedDateTime,
+  elParsed$Global_reactive_power_num,
+  ylab = "Global_reactive_power", 
+  xlab = "datetime", 
+  type = "l",
+  col = "black"
 )
 
 ## Don't forget to shut down the device
